@@ -1,13 +1,20 @@
 ---
-title: Example poem
-date: 2026-09-01
+title: Mangoes
+date: 2026-07-31
 kind: poem
 ---
 
-Each line of a poem stays on its own line,
-the way it was written,
-    and leading spaces
-        carry indentation through.
+Help! Someone sent me fifty mangoes last week.
 
-A blank line starts a new stanza.
-Delete this file once the real poems are in.
+I have been eating three or four every day,
+but now my living room smells of sweet mangoes.
+
+I shared some with my neighbor,
+but they do not want any more, and I am afraid.
+
+I am afraid I am losing the battle against time.
+
+What am I to do with this crate of ripening,
+sweet-smelling mangoes?
+
+Help.
