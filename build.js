@@ -6,7 +6,7 @@ import path from "node:path";
 const OUT = "_site";
 const SITE = {
   name: "Lynn Jeffress",
-  description: "Poems and short stories by Lynn Jeffress, a writer in Brooklyn, New York.",
+  description: "Poems and short stories by Lynn Jeffress.",
 };
 const NAV = [
   { href: "/writing/", label: "Writing" },
@@ -53,11 +53,17 @@ function formatDate(date) {
   return d.toLocaleDateString("en-US", { month: "long", year: "numeric" });
 }
 
-function layout({ title, description = SITE.description, current, body, bodyClass = "" }) {
+function layout({
+  title,
+  description = SITE.description,
+  current,
+  body,
+  bodyClass = "",
+}) {
   const pageTitle = title ? `${escape(title)} | ${SITE.name}` : SITE.name;
   const nav = NAV.map(
     (n) =>
-      `<a href="${n.href}"${current === n.href ? ' aria-current="page"' : ""}>${n.label}</a>`
+      `<a href="${n.href}"${current === n.href ? ' aria-current="page"' : ""}>${n.label}</a>`,
   ).join("\n        ");
   return `<!doctype html>
 <html lang="en">
@@ -82,7 +88,7 @@ function layout({ title, description = SITE.description, current, body, bodyClas
 ${body}
   </main>
   <footer class="site-footer">
-    <p>Brooklyn, New York</p>
+    <p>Copyright &copy; 2026 Lynn Jeffress</p>
   </footer>
 </body>
 </html>
@@ -107,7 +113,9 @@ function loadWriting() {
       kind: KINDS[p.meta.kind] ? p.meta.kind : "poem",
       date: p.meta.date || "",
     }))
-    .sort((a, b) => b.date.localeCompare(a.date) || a.title.localeCompare(b.title));
+    .sort(
+      (a, b) => b.date.localeCompare(a.date) || a.title.localeCompare(b.title),
+    );
 }
 
 function entry(p) {
@@ -133,7 +141,7 @@ function writingList(pieces) {
       <ul class="entries">
 ${list.map(entry).join("\n")}
       </ul>
-    </section>`
+    </section>`,
     )
     .join("\n");
 }
@@ -145,7 +153,7 @@ function buildWriting(pieces) {
       title: "Writing",
       current: "/writing/",
       body: `    <h1>Writing</h1>\n${writingList(pieces)}`,
-    })
+    }),
   );
 
   pieces.forEach((p, i) => {
@@ -154,8 +162,12 @@ function buildWriting(pieces) {
     const html = p.kind === "poem" ? renderPoem(p.body) : prose.parse(p.body);
     const date = formatDate(p.date);
     const pager = [
-      older ? `<a class="older" href="/writing/${older.slug}/">${escape(older.title)}</a>` : "",
-      newer ? `<a class="newer" href="/writing/${newer.slug}/">${escape(newer.title)}</a>` : "",
+      older
+        ? `<a class="older" href="/writing/${older.slug}/">${escape(older.title)}</a>`
+        : "",
+      newer
+        ? `<a class="newer" href="/writing/${newer.slug}/">${escape(newer.title)}</a>`
+        : "",
     ].join("");
     writePage(
       `writing/${p.slug}`,
@@ -175,7 +187,7 @@ ${html}
       <a class="back" href="/writing/">All writing</a>
       ${pager}
     </nav>`,
-      })
+      }),
     );
   });
 }
@@ -191,7 +203,7 @@ function buildPages() {
         description: p.meta.description,
         current: route,
         body: `    <h1>${escape(p.meta.title || p.slug)}</h1>\n    <div class="text">\n${prose.parse(p.body)}    </div>`,
-      })
+      }),
     );
   }
 }
@@ -203,7 +215,7 @@ function buildHome(pieces) {
     layout({
       bodyClass: "home",
       body: `    <h1 class="name">${SITE.name}</h1>
-    <p class="intro">Poems and short stories from Brooklyn, New York.</p>
+    <p class="intro">Poems and short stories by Lynn Jeffress.</p>
 ${
   recent.length
     ? `    <section class="recent">
@@ -215,7 +227,7 @@ ${recent.map(entry).join("\n")}
     </section>`
     : ""
 }`,
-    })
+    }),
   );
 }
 
@@ -231,22 +243,31 @@ function build() {
     layout({
       title: "Page not found",
       body: `    <h1>Page not found</h1>\n    <p>This page doesn't exist. Try the <a href="/writing/">writing</a> page instead.</p>`,
-    })
+    }),
   );
   console.log(`Built ${pieces.length} pieces into ${OUT}/`);
 }
 
 function serve(port = 8000) {
-  const types = { ".html": "text/html", ".css": "text/css", ".svg": "image/svg+xml", ".png": "image/png", ".jpg": "image/jpeg" };
+  const types = {
+    ".html": "text/html",
+    ".css": "text/css",
+    ".svg": "image/svg+xml",
+    ".png": "image/png",
+    ".jpg": "image/jpeg",
+  };
   http
     .createServer((req, res) => {
       let file = path.join(OUT, decodeURIComponent(req.url.split("?")[0]));
-      if (fs.existsSync(file) && fs.statSync(file).isDirectory()) file = path.join(file, "index.html");
+      if (fs.existsSync(file) && fs.statSync(file).isDirectory())
+        file = path.join(file, "index.html");
       if (!fs.existsSync(file)) {
         res.writeHead(404, { "Content-Type": "text/html" });
         return res.end(fs.readFileSync(path.join(OUT, "404.html")));
       }
-      res.writeHead(200, { "Content-Type": types[path.extname(file)] || "application/octet-stream" });
+      res.writeHead(200, {
+        "Content-Type": types[path.extname(file)] || "application/octet-stream",
+      });
       res.end(fs.readFileSync(file));
     })
     .listen(port, () => console.log(`Serving at http://localhost:${port}`));
