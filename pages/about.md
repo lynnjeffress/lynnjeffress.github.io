@@ -1,8 +1,6 @@
 ---
 title: About
-description: About Lynn Jeffress, a poet and writer in Brooklyn, New York.
+description: About Lynn.
 ---
 
-Lynn Jeffress is a poet and short story writer living in Brooklyn, New York.
-
-[Replace this with Lynn's bio: background, publications, readings, and what Lynn is working on now.]
+Lynn Jeffress is a writer, and will eventually come up with a real bio. Perhaps.

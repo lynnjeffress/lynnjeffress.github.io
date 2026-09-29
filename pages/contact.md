@@ -1,6 +1,6 @@
 ---
 title: Contact
-description: How to get in touch with Lynn Jeffress.
+description: How to get in touch with Lynn.
 ---
 
-For readings, publication inquiries, or just to say hello, write to [hello@example.com](mailto:hello@example.com).
+Contact form coming soon.
